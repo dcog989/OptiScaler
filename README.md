@@ -42,12 +42,12 @@ First, [download the latest release](https://github.com/cdozdil/OptiScaler/relea
 [2] Normally Streamline and games check if nvngx.dll is signed, by merging this `.reg` file we are overriding this signature check.
 
 [3] Adding signature override on Linux - There are many possible setups, this one will focus on steam games:
-    
-    - Make sure you have protontricks installed
-    - Run in a terminal protontricks <steam-appid> regedit, replace <steam-appid> with an id for your game
-    - Press "registry" in the top left of the new window -> `Import Registry File` -> navigate to and select `EnableSignatureOverride.reg`
-    - You should see a message saying that you successfully added the entries to the registry
-    - If your game is not on Steam, it all boils down to opening regedit inside your game's prefix and importing the file.
+
+- Make sure you have protontricks installed
+- Run in a terminal protontricks <steam-appid> regedit, replace <steam-appid> with an id for your game
+- Press "registry" in the top left of the new window -> `Import Registry File` -> navigate to and select `EnableSignatureOverride.reg`
+- You should see a message saying that you successfully added the entries to the registry
+- If your game is not on Steam, it all boils down to opening regedit inside your game's prefix and importing the file.
 
 
 ## Update OptiScaler version when using DLSS Enabler  
