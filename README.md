@@ -7,7 +7,7 @@ OptiScaler enables additional upscaling + frame generation technologies in DLSS2
 
 ## INSTALL
 
-First, [download the latest release](https://github.com/cdozdil/OptiScaler/releases/latest) and extract it.
+First, [download the latest release](https://github.com/cdozdil/OptiScaler/releases/latest) and extract it, then choose `non-nvngx` or `nvngx` install option:
 
 ### Install as `non-nvngx` (this will enable all features including Frame Gen)
 
@@ -31,24 +31,24 @@ First, [download the latest release](https://github.com/cdozdil/OptiScaler/relea
 **Please don't rename the ini file, it should stay as `nvngx.ini`**.
 
 
-### Install as `nvngx.dll` (this provides limited features and no FG or Overlay Menu)
+### Install as `nvngx` (this provides limited features and no FG or Overlay Menu)
 
 1. Extract the contents of the archive next to the game executable file in your games folder. (e.g. for Unreal Engine games it's `<path-to-game>\Binaries\Win64\`) [1]
-2. Run `EnableSignatureOverride.reg` from `DlssOverrides` folder and confirm merge. [2][3]
-3. If your GPU is not an Nvidia one, check [GPU spoofing options](Spoofing.md).
+2. Run `EnableSignatureOverride.reg` from `DlssOverrides` folder and confirm merge [2][3]
+3. If your GPU is not an Nvidia one, check [GPU spoofing options](Spoofing.md)
 
-*[1] This package contains latest version of `libxess.dll` and if game folder contains any older version of same library it would be overwritten. Consider backing up or renaming existing file.*
+[1] This package contains latest version of `libxess.dll` and if game folder contains any older version of same library it would be overwritten. Consider backing up or renaming existing file.
 
-*[2] Normally Streamline and games check if nvngx.dll is signed, by merging this `.reg` file we are overriding this signature check.*
+[2] Normally Streamline and games check if nvngx.dll is signed, by merging this `.reg` file we are overriding this signature check.
 
-*[3] Adding signature override on Linux - There are many possible setups, this one will focus on steam games:*
+[3] Adding signature override on Linux - There are many possible setups, this one will focus on steam games:
+    
+    - Make sure you have protontricks installed
+    - Run in a terminal protontricks <steam-appid> regedit, replace <steam-appid> with an id for your game
+    - Press "registry" in the top left of the new window -> `Import Registry File` -> navigate to and select `EnableSignatureOverride.reg`
+    - You should see a message saying that you successfully added the entries to the registry
+    - If your game is not on Steam, it all boils down to opening regedit inside your game's prefix and importing the file.
 
-* *Make sure you have protontricks installed*
-* *Run in a terminal protontricks <steam-appid> regedit, replace <steam-appid> with an id for your game*
-* *Press "registry" in the top left of the new window -> `Import Registry File` -> navigate to and select `EnableSignatureOverride.reg`*
-* *You should see a message saying that you successfully added the entries to the registry*
-
-*If your game is not on Steam, it all boils down to opening regedit inside your game's prefix and importing the file.*
 
 ## Update OptiScaler version when using DLSS Enabler  
 1. Delete/rename `dlss-enabler-upscaler.dll` in game folder
@@ -63,6 +63,7 @@ First, [download the latest release](https://github.com/cdozdil/OptiScaler/relea
 * Delete `EnableSignatureOverride.reg`, `DisableSignatureOverride.reg`, `nvngx.dll`, `nvngx.ini` files
 * If there were a `libxess.dll` file and you have backed it up delete the new file and restore the backed up file. If you have overwrote old file **DO NOT** delete `libxess.dll` file. If there were no `libxess.dll` file it's safe to delete.
 * 
+
 
 ## How does it work?
 
@@ -110,27 +111,27 @@ Please check [this](Issues.md) document for rest of the known issues and possibl
 
 
 ## Which APIs and Upscalers are Supported?
-Currently OptiScaler can be used with DirectX 11, DirectX 12 and Vulkan but each API has different sets of upscaler options.
+Currently OptiScaler can be used with DirectX 11 (DX11), DirectX 12 (DX12) and Vulkan but each API has different sets of upscaler options:
 
-#### For DirectX 12
-- XeSS 1.x.x (Default)
-- FSR2 2.1.2, 2.2.1
-- FSR3 3.1.0 & FSR2 2.3.2
-- DLSS
+- DirectX 11
+    - FSR2 2.2.1 (Default, native DX11)
+    - FSR3 3.1.1 (unofficial port to native DX11)
+    - XeSS 1.x.x, FSR2 2.1.2, 2.2.1, FSR3 3.1.0 & FSR2 2.3.2 (via background DX12 process*)
+    - DLSS (native DX11)
 
-#### For DirectX 11
-- FSR2 2.2.1 (Default, native DX11)
-- FSR3 3.1.1 (unofficial port to native DX11)
-- XeSS 1.x.x, FSR2 2.1.2, 2.2.1, FSR3 3.1.0 & FSR2 2.3.2 (via background DX12 processing) [*]
-- DLSS (native DX11)
+ [*] This implementations uses a background DX12 process to enable use of DX12-only upscalers. There is a 10-15% performance penalty for this method. Also, native DX11 implementation of FSR 2.2.1 is a backport from Unity renderer and has it's own problems but some of them are avoided by OptiScaler. **These implementations do not support Linux** and will result in black screen.
 
-[*] This implementations uses a background DirectX12 device to be able to use Dirext12 only upscalers. There is %10-15 performance penalty for this method but allows much more upscaler options. Also native DirectX11 implementation of FSR 2.2.1 is a backport from Unity renderer and has it's own problems which some of them avoided by OptiScaler. **These implementations do not support Linux** and will result in black screen.
+- DirectX 12
+    - XeSS 1.x.x (Default)
+    - FSR2 2.1.2, 2.2.1
+    - FSR3 3.1.0 & FSR2 2.3.2
+    - DLSS
 
-#### For Vulkan
-- FSR2 2.1.2 (Default)
-- FSR2 2.2.1
-- FSR3 3.1.0 & FSR2 2.3.2
-- DLSS
+- Vulkan
+    - FSR2 2.1.2 (Default)
+    - FSR2 2.2.1
+    - FSR3 3.1.0 & FSR2 2.3.2
+    - DLSS
 
 ## Compilation
 
